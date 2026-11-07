@@ -1,0 +1,50 @@
+# Node / npm
+node_modules/
+npm-debug.log
+yarn-debug.log
+pnpm-debug.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build artefacts
+dist/
+build/
+coverage/
+
+# Environment / secrets – never commit (any folder). Only .env.example templates are tracked.
+.env
+.env.*
+.env*
+*.env
+*.env.*
+frontend/.env*
+backend/.env*
+python_backend/.env*
+!.env.example
+
+# OS / IDE artefacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+tmp/
+*.tmp
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local secret-scrubbing list (contains raw keys)
+replacements.txt
+
+# Superseded code kept locally as backup (Flask backend, old agent UI)
+python_backend/legacy_flask/
+frontend/legacy_components/
+
+.vercel

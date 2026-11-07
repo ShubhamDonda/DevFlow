@@ -1,0 +1,125 @@
+@import 'tailwindcss';
+
+/* Midnight Indigo – deep blue-black surfaces with an indigo -> cyan accent */
+@theme {
+  --color-app: #0b0d17;      /* main surface */
+  --color-side: #080a12;     /* sidebar */
+  --color-field: #171b2e;    /* composer, menus */
+  --color-raise: #121628;    /* hover rows, cards */
+  --color-ink: #e8eaf6;      /* primary text */
+  --color-mute: #9ba1c0;     /* secondary text */
+  --color-faint: #5f6688;    /* tertiary text */
+  --color-accent: #7c6cff;   /* brand indigo */
+  --color-accent-2: #22d3ee; /* brand cyan */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-app text-ink font-sans antialiased;
+    background-image:
+      radial-gradient(60rem 30rem at 85% -10%, rgb(124 108 255 / 0.10), transparent 60%),
+      radial-gradient(50rem 25rem at -10% 110%, rgb(34 211 238 / 0.06), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgb(124 108 255 / 0.35);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(124 108 255 / 0.25) transparent;
+  }
+}
+
+@layer components {
+  /* Brand gradient text (word-mark, headings) */
+  .text-brand {
+    @apply bg-gradient-to-r from-indigo-300 via-accent to-accent-2 bg-clip-text text-transparent;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-ink placeholder-faint transition-colors focus:border-accent/60 focus:ring-2 focus:ring-accent/20 focus:outline-none;
+  }
+
+  .btn-light {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-accent to-accent-2 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-accent/20 transition-[filter,box-shadow] hover:brightness-110 hover:shadow-accent/35 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full border border-accent/25 px-4 py-2 text-sm text-ink transition-colors hover:border-accent/50 hover:bg-accent/10;
+  }
+
+  /* Film grain overlay – breaks up flat digital gradients */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* "Thinking…" shimmer like ChatGPT */
+  .shimmer {
+    background: linear-gradient(90deg, #5f6688 0%, #a5b4fc 35%, #67e8f9 50%, #a5b4fc 65%, #5f6688 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  /* Rendered agent answers (react-markdown) */
+  .markdown {
+    @apply leading-7 break-words;
+  }
+  .markdown > * + * { @apply mt-4; }
+  .markdown h1 { @apply text-2xl font-semibold text-white mt-8; }
+  .markdown h2 { @apply text-xl font-semibold text-white mt-8; }
+  .markdown h3 { @apply text-lg font-semibold text-white mt-6; }
+  .markdown h4 { @apply font-semibold text-white mt-5; }
+  .markdown ul { @apply list-disc pl-6 space-y-1.5; }
+  .markdown ol { @apply list-decimal pl-6 space-y-1.5; }
+  .markdown li > ul, .markdown li > ol { @apply mt-1.5; }
+  .markdown a { @apply text-accent-2 underline decoration-accent-2/30 underline-offset-4 hover:decoration-accent-2; }
+  .markdown strong { @apply font-semibold text-white; }
+  .markdown blockquote { @apply border-l-2 border-accent/50 pl-4 text-mute; }
+  .markdown hr { @apply border-white/10 my-6; }
+  .markdown :not(pre) > code {
+    @apply rounded-md bg-accent/15 px-1.5 py-0.5 font-mono text-[0.85em] text-indigo-200;
+  }
+  .markdown pre code.hljs { @apply bg-transparent p-0; }
+  .markdown table { @apply w-full border-collapse text-left text-sm; }
+  .markdown th { @apply border-b border-white/15 px-3 py-2 font-semibold text-white; }
+  .markdown td { @apply border-b border-white/5 px-3 py-2; }
+}
+
+@keyframes shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+/* Auth form content entering on a tab / step change */
+.auth-enter {
+  animation: auth-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes auth-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-enter { animation: none; }
+}
+
+/* Indeterminate progress bar on the auth page */
+@keyframes auth-progress {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(300%); }
+}
